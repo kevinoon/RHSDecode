@@ -29,9 +29,9 @@ public class BasicAutonomous extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            driveForward(24, 0.5); // Drive forward 24 inches
-            sleep(1000);
-            turnRight(90, 0.5);    // Turn right 90 degrees
+            driveForward(100, 0.5); // Drive forward 100 inches
+            sleep(7000);
+            // turnRight(90, 0.5);    // Turn right 90 degrees
         }
     }
 
@@ -93,5 +93,12 @@ public class BasicAutonomous extends LinearOpMode {
 
     private boolean motorsAreBusy() {
         return frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy();
+    }
+    
+    private void fullStop() {
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 }
