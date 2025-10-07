@@ -29,8 +29,13 @@ public class BasicAutonomous extends LinearOpMode {
         waitForStart();
 
         if (opModeIsActive()) {
-            driveForward(100, 0.5); // Drive forward 100 inches
-            sleep(7000);
+            // frontLeft.setPower(1);
+            // sleep(5000);
+            // frontLeft.setPower(0);
+            // frontLeft.setPower(0);
+            driveForward(500, 0.5); // Drive forward 100 inches
+            fullStop();
+            // sleep(7000);
             // turnRight(90, 0.5);    // Turn right 90 degrees
         }
     }
