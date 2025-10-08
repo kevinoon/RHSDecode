@@ -4,14 +4,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name="Basic Autonomous", group="Linear Opmode")
-public class BasicAutonomous extends LinearOpMode {
+@Autonomous(name="Advanced Autonomous 5204", group="Linear Opmode")
+public class AdvancedAutonomous extends LinearOpMode {
 
     private DcMotor frontLeft, frontRight, backLeft, backRight;
 
-    static final double COUNTS_PER_MOTOR_REV = 537.6; // GoBilda 5202 motor
-    static final double WHEEL_DIAMETER_INCHES = 4.0;
-    static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV) / (WHEEL_DIAMETER_INCHES * Math.PI);
+    static final double COUNTS_PER_MOTOR_REV = 537.7; // GoBilda 5204
+    static final double WHEEL_DIAMETER_INCHES = 3.78; // Real GoBilda wheel diameter
+    static final double COUNTS_PER_INCH = COUNTS_PER_MOTOR_REV / (WHEEL_DIAMETER_INCHES * Math.PI);
+    static final double ROBOT_TURN_CIRCUMFERENCE = 18.85; // Adjust via testing (distance wheels travel for 360° turn)
 
     @Override
     public void runOpMode() {
@@ -26,60 +27,65 @@ public class BasicAutonomous extends LinearOpMode {
         setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        telemetry.addLine("Ready to start");
+        telemetry.update();
         waitForStart();
 
         if (opModeIsActive()) {
-            // frontLeft.setPower(1);
-            // sleep(5000);
-            // frontLeft.setPower(0);
-            // frontLeft.setPower(0);
-            driveForward(500, 0.5); // Drive forward 100 inches
+            // Example sequence: forward → right → backward → left → spin 5x
+            driveInches(24, 0.5);      // forward 24"
+            strafeInches(24, 0.5);     // right 24"
+            driveInches(-24, 0.5);     // backward 24"
+            strafeInches(-24, 0.5);    // left 24"
+            turnDegrees(360 * 5, 0.6); // spin 5 times
             fullStop();
-            // sleep(7000);
-            // turnRight(90, 0.5);    // Turn right 90 degrees
         }
     }
 
-    private void driveForward(double inches, double power) {
-        int moveCounts = (int)(inches * COUNTS_PER_INCH);
-        setTargetPosition(moveCounts, moveCounts, moveCounts, moveCounts);
+    /** Move straight (positive = forward, negative = backward) */
+    private void driveInches(double inches, double power) {
+        int move = (int)(inches * COUNTS_PER_INCH);
+        setTargetPosition(move, move, move, move);
+        runToPosition(power);
+        telemetryLoop("Driving " + inches + " inches");
+    }
+
+    /** Strafe left/right (positive = right, negative = left) */
+    private void strafeInches(double inches, double power) {
+        int move = (int)(inches * COUNTS_PER_INCH);
+        // Mecanum strafing: frontLeft opposite of backLeft, etc.
+        setTargetPosition(move, -move, -move, move);
+        runToPosition(power);
+        telemetryLoop("Strafing " + inches + " inches");
+    }
+
+    /** Turn right (positive degrees = clockwise, negative = counterclockwise) */
+    private void turnDegrees(double degrees, double power) {
+        double turnInches = (degrees / 360.0) * ROBOT_TURN_CIRCUMFERENCE;
+        int move = (int)(turnInches * COUNTS_PER_INCH);
+        setTargetPosition(move, -move, move, -move);
+        runToPosition(power);
+        telemetryLoop("Turning " + degrees + "°");
+    }
+
+    /** --- Helper Methods --- **/
+
+    private void runToPosition(double power) {
         setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
         setPower(power);
+    }
 
+    private void telemetryLoop(String msg) {
         while (opModeIsActive() && motorsAreBusy()) {
-            telemetry.addData("Driving Forward", inches + " inches");
+            telemetry.addData("Status", msg);
+            telemetry.addData("FL Pos", frontLeft.getCurrentPosition());
+            telemetry.addData("FR Pos", frontRight.getCurrentPosition());
+            telemetry.addData("BL Pos", backLeft.getCurrentPosition());
+            telemetry.addData("BR Pos", backRight.getCurrentPosition());
             telemetry.update();
         }
         stopMotors();
-    }
-
-    private void turnRight(double degrees, double power) {
-        // Approximate method for turning. You should tune this based on your robot's turning characteristics.
-        double robotTurnCircumference = 18.85; // Adjust this based on your robot (inches)
-        double turnDistance = (degrees / 360.0) * robotTurnCircumference;
-        int moveCounts = (int)(turnDistance * COUNTS_PER_INCH);
-
-        // Left wheels forward, right wheels backward
-        setTargetPosition(moveCounts, -moveCounts, moveCounts, -moveCounts);
-        setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
-        setPower(power);
-
-        while (opModeIsActive() && motorsAreBusy()) {
-            telemetry.addData("Turning Right", degrees + " degrees");
-            telemetry.update();
-        }
-        stopMotors();
-    }
-
-    private void setPower(double power) {
-        frontLeft.setPower(power);
-        frontRight.setPower(power);
-        backLeft.setPower(power);
-        backRight.setPower(power);
-    }
-
-    private void stopMotors() {
-        setPower(0);
+        setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     private void setTargetPosition(int fl, int fr, int bl, int br) {
@@ -96,14 +102,17 @@ public class BasicAutonomous extends LinearOpMode {
         backRight.setMode(mode);
     }
 
+    private void setPower(double power) {
+        frontLeft.setPower(power);
+        frontRight.setPower(power);
+        backLeft.setPower(power);
+        backRight.setPower(power);
+    }
+
     private boolean motorsAreBusy() {
-        return frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy();
+        return frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy();
     }
-    
-    private void fullStop() {
-        frontLeft.setPower(0);
-        frontRight.setPower(0);
-        backLeft.setPower(0);
-        backRight.setPower(0);
-    }
+
+    private void stopMotors() { setPower(0); }
+    private void fullStop() { stopMotors(); }
 }
