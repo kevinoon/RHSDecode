@@ -65,7 +65,7 @@ public class BasicTeleOp extends LinearOpMode {
             double y = -gamepad1.left_stick_y; // forward/back
             double x = gamepad1.left_stick_x;  // strafe
             double rx = gamepad1.right_stick_x; // rotation
-
+            System.out.println("Left Stick Y: " + y + "Left Stick X: " + x + "Right Stick X: " + rx);
             frontLeft.setPower(y + x + rx);
             backLeft.setPower(y - x + rx);
             frontRight.setPower(y - x - rx);
