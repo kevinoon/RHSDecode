@@ -39,6 +39,17 @@ public class BasicTeleOp extends LinearOpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        // --- Get the camera monitor id ---
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Main Webcam"), cameraMonitorViewId);
+
+        camera.openCameraDevice();
+
+        camera.setPipeline(new SamplePipeline());
+
+        camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
+
         telemetry.addLine("Ready to drive!");
         telemetry.update();
 
