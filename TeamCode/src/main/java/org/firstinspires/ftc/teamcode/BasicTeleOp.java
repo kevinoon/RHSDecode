@@ -3,9 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import org.openftc.easyopencv.*;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvCameraFactory;
 
 @TeleOp(name = "Basic TeleOp", group = "Linear Opmode")
 public class BasicTeleOp extends LinearOpMode {
@@ -22,7 +19,7 @@ public class BasicTeleOp extends LinearOpMode {
         backRight = hardwareMap.get(DcMotor.class, "backRight");
 
         // --- Motor Directions ---
-        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);  // keep reversed
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         backRight.setDirection(DcMotor.Direction.FORWARD);
@@ -39,54 +36,26 @@ public class BasicTeleOp extends LinearOpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        // --- Get the camera monitor id ---
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Main Webcam"), cameraMonitorViewId);
-
-        camera.openCameraDevice();
-
-        camera.setPipeline(new SamplePipeline());
-
-        camera.startStreaming(1280, 720, OpenCvCameraRotation.UPRIGHT);
-
-        telemetry.addLine("Ready to drive!");
-        telemetry.update();
-
         waitForStart();
 
-        // --- Control Loop ---
+        // --- Control Loop (Mecanum Drive Only) ---
         while (opModeIsActive()) {
 
-            // ----- Option 1: ARCADE DRIVE -----
-            double drive = -gamepad1.left_stick_y;  // forward/back
-            double turn = gamepad1.right_stick_x;   // left/right turn
-
-            double leftPower = drive + turn;
-            double rightPower = drive - turn;
-
-            // Normalize values so neither exceed 1.0
-            leftPower = Math.max(-1.0, Math.min(1.0, leftPower));
-            rightPower = Math.max(-1.0, Math.min(1.0, rightPower));
-
-            frontLeft.setPower(leftPower);
-            backLeft.setPower(leftPower);
-            frontRight.setPower(rightPower);
-            backRight.setPower(rightPower);
-
-            // ----- Option 2: STRAFING (if mecanum or omni wheels) -----
-            // Uncomment this section if your robot can strafe sideways
-            double y = -gamepad1.left_stick_y; // forward/back
-            double x = gamepad1.left_stick_x;  // strafe
+            double y = -gamepad1.left_stick_y;  // forward/back
+            double x = gamepad1.left_stick_x;   // strafe
             double rx = gamepad1.right_stick_x; // rotation
-            System.out.println("Left Stick Y: " + y + "Left Stick X: " + x + "Right Stick X: " + rx);
+
+            System.out.println("Left Stick Y: " + y + " Left Stick X: " + x + " Right Stick X: " + rx);
+
+            // Basic mecanum drive control
             frontLeft.setPower(y + x + rx);
             backLeft.setPower(y - x + rx);
             frontRight.setPower(y - x - rx);
             backRight.setPower(y + x - rx);
 
-            telemetry.addData("Left Power", leftPower);
-            telemetry.addData("Right Power", rightPower);
+            telemetry.addData("Y", y);
+            telemetry.addData("X", x);
+            telemetry.addData("RX", rx);
             telemetry.update();
         }
     }
