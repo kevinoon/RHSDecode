@@ -24,17 +24,17 @@ public class Hardware {
     }
 
     public void init(HardwareMap hardwareMap) {
-        frontLeft = hardwareMap.get(DcMotor.class, "fl");
+        frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        frontRight = hardwareMap.get(DcMotor.class, "fr");
+        frontRight = hardwareMap.get(DcMotor.class, "frontRight");
         frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        backRight = hardwareMap.get(DcMotor.class, "br");
+        backRight = hardwareMap.get(DcMotor.class, "backRight");
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        backLeft = hardwareMap.get(DcMotor.class, "bl");
+        backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
