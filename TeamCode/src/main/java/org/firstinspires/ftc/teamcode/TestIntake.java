@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
 @TeleOp(group = "TeleOp", name = "TestIntake")
-public class IntakeTester extends LinearOpMode {
+public class TestIntake extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Intake intake = new Intake(hardwareMap);

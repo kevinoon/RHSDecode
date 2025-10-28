@@ -13,6 +13,8 @@ public class Hardware {
     public DcMotor backLeft;
     public DcMotor backRight;
 
+    private double intakePower = 0.5;
+
     private Hardware(OpMode opMode) {
         self = this;
         this.opMode = opMode;
@@ -93,5 +95,9 @@ public class Hardware {
         frontRight.setPower(-power);
         backLeft.setPower(-power);
         backRight.setPower(power);
+    }
+
+    public void intake() {
+        intake.intakeToggle(intakePower);
     }
 }
