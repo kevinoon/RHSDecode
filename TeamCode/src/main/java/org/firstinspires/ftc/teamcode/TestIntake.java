@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.SubSystems.Intake;
 import org.firstinspires.ftc.teamcode.SubSystems.Shooter;
 import org.firstinspires.ftc.teamcode.utils.GamepadEvents;
-@TeleOp(group = "A LeTeleOp", name = "IntakeTest")
+@TeleOp(group = "TeleOp", name = "TestIntake")
 public class IntakeTester extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
