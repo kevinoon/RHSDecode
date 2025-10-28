@@ -12,6 +12,7 @@ public class Hardware {
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+    public Intake intake;
 
     private Hardware(OpMode opMode) {
         self = this;
