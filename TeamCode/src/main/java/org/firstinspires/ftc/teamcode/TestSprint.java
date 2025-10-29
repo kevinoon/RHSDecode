@@ -37,6 +37,9 @@ public class TestSprint extends LinearOpMode {
             }
 
             // Rotation Scaling might remove later idk im ceo
+            // This makes it so that the same thing that happens with the left stick
+            // Happens with the right stick lmk if I should remove this because I just want to test it out
+            // Is this a good explenation, let me know in the comments below. Don't forget to like and subscribe
             double turnScale = Math.pow(Math.abs(rx), 3);
             rx *= turnScale;
 
