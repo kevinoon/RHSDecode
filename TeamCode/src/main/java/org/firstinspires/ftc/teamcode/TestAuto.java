@@ -18,8 +18,18 @@ public class TestAuto extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
         while(opModeIsActive()) {
-            hw.setPower(1);
-            Thread.sleep(5000);
+            hw.setPower(0.5);
+            sleep(5000);
+            hw.setPower(0);
+            sleep(5000);
+            hw.strafeLeft(0.5);
+            sleep(5000);
+            hw.setPower(0);
+            hw.strafeRight(0.5);
+            sleep(5000);
+            hw.setPower(0);
+            hw.setPower(-0.5);
+            sleep(5000);
             hw.setPower(0);
         }
     }
