@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.evenloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.Range;
 
@@ -19,7 +19,7 @@ public class TestSprint extends LinearOpMode {
             // Read Joystick inputs
 
             // Disabled for testing 
-            
+
             // double y = -gamepad1.left_stick_y; // Forwards and Backwards
             // double x = gamepad1.left_stick_x; // Strafing
             // double rx = gamepad1.right_stick_x; // Rotation

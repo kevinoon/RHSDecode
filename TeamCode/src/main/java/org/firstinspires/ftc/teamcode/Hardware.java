@@ -104,5 +104,6 @@ public class Hardware {
 
     public void shoot() {
         //Insert Shooting method here
+        shoot.shootToggle(shootPower);
     }
 }
