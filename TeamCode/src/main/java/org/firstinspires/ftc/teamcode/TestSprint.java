@@ -17,9 +17,16 @@ public class TestSprint extends LinearOpMode {
         while(opModeIsActive()) {
 
             // Read Joystick inputs
-            double y = -gamepad1.left_stick_y; // Forwards and Backwards
-            double x = gamepad1.left_stick_x; // Strafing
-            double rx = gamepad1.right_stick_x; // Rotation
+
+            // Disabled for testing 
+            
+            // double y = -gamepad1.left_stick_y; // Forwards and Backwards
+            // double x = gamepad1.left_stick_x; // Strafing
+            // double rx = gamepad1.right_stick_x; // Rotation
+
+            double y = applyDeadzone(-gamepad1.left_stick_y, 0.1);
+            double x = applyDeadzone(gamepad1.left_stick_x, 0.1);
+            double rx = applyDeadzone(gamepad1.right_stick_x, 0.1);
 
             // Determines how far the stick is being pushed
             double stickMagnitude = Math.sqrt(x * x + y * y);
@@ -40,8 +47,11 @@ public class TestSprint extends LinearOpMode {
             // This makes it so that the same thing that happens with the left stick
             // Happens with the right stick lmk if I should remove this because I just want to test it out
             // Is this a good explenation, let me know in the comments below. Don't forget to like and subscribe
-            double turnScale = Math.pow(Math.abs(rx), 3);
-            rx *= turnScale;
+
+            // Disabled for testing
+
+            // double turnScale = Math.pow(Math.abs(rx), 3);
+            // rx *= turnScale;
 
             // Mecanum Drive Calcs (Short for Calculations)
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
@@ -64,6 +74,14 @@ public class TestSprint extends LinearOpMode {
             telemetry.addData("Back Left", backLeftPower);
             telemetry.addData("Back Right", backRightPower);
             telemetry.update();
+        }
+    }
+
+    private double applyDeadzone(double value, double deadzone) {
+        if(Math.abs(value) < deadzone) {
+            return 0;
+        } else {
+            return Math.signum(value) * (Math.abs(value) - deadzone) / (1 - deadzone);
         }
     }
 }
