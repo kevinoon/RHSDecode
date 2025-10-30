@@ -14,6 +14,7 @@ public class Hardware {
     public DcMotor backRight;
 
     private double intakePower = 0.5;
+    private double shootPower = 0.5;
 
     private Hardware(OpMode opMode) {
         self = this;
@@ -99,5 +100,9 @@ public class Hardware {
 
     public void intake() {
         intake.intakeToggle(intakePower);
+    }
+
+    public void shoot() {
+        //Insert Shooting method here
     }
 }
