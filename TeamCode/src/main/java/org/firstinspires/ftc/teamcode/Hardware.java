@@ -13,6 +13,11 @@ public class Hardware {
     public DcMotor backLeft;
     public DcMotor backRight;
 
+    private DcMotor testMotor;
+    private Servo testServo;
+    private Servo testServo1;
+    
+
     private double intakePower = 0.5;
     private double shootPower = 0.5;
 
@@ -45,6 +50,10 @@ public class Hardware {
         frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+         testMotor = hardwareMap.get(DcMotor.class, "testMotor");
+        testServo = hardwareMap.get(Servo.class, "testServo");
+        testServo1 = hardwareMap.get(Servo.class, "testServo1");
     }
 
     public void setToRunToPosition() {
