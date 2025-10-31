@@ -1,29 +1,33 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@TeleOp
+@Autonomous
 
 public class MotorTest extends LinearOpMode {
-    private Servo testServo;
+    
+    private DcMotor testMotor;
 
     // public void init() {
     //     testServo = hardwareMap.get(Servo.class, "testServo");
     // }
     
     public void runOpMode() {
-
-        testServo = hardwareMap.get(Servo.class, "testServo");
+        
+        testMotor = hardwareMap.get(DcMotor.class, "testMotor");
         
         waitForStart();
         
         if(opModeIsActive()) {
-            testServo.setPosition(1);
+            testMotor.setPower(1.0);
             sleep(5000);
-            testServo.setPosition(0);
+            testMotor.setPower(0);
             sleep(5000);
+
+            // These guys fr cant build anything what is the point of this, we have an hour left and they have made 0 progress on the robot
         }
     }
 }
