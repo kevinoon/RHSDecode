@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Hardware {
     private static Hardware self;
@@ -16,8 +17,17 @@ public class Hardware {
     private DcMotor testMotor;
     private Servo testServo;
     private Servo testServo1;
-    
+    // If its a motor for intake
+    // public DcMotor intakeMotor;
 
+    // If its two servos
+    public Servo intakeServoLeft;
+    public Servo intakeServoRight;
+
+    // shooter motor
+    public DcMotor shooterMotor;
+    
+    // Powers can be adjusted here
     private double intakePower = 0.5;
     private double shootPower = 0.5;
 
@@ -54,6 +64,21 @@ public class Hardware {
          testMotor = hardwareMap.get(DcMotor.class, "testMotor");
         testServo = hardwareMap.get(Servo.class, "testServo");
         testServo1 = hardwareMap.get(Servo.class, "testServo1");
+
+        // If its a motor uncomment
+        
+        // intakeMotor = hardwareMap.get(DcMotor.class, "intake");
+        // intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        // intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        // If its servos
+        intakeServoLeft = hardwareMap.get(Servo.class, "intakeServoLeft");
+        intakeServoRight = hardwareMap.get(Servo.class, "intakeServoRight");
+
+        // Shooter motor
+        shooterMotor = hardwareMap.get(DcMotor.class, "shooter");
+        shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void setToRunToPosition() {
@@ -107,12 +132,52 @@ public class Hardware {
         backRight.setPower(power);
     }
 
-    public void intake() {
-        intake.intakeToggle(intakePower);
+    // Set intake motor power (-1.0 .. 1.0). Safe if intakeMotor is not configured.
+    public void setIntakePower(double power) {
+        // If a motor exists, prefer using it.
+        if (intakeMotor != null) {
+            intakeMotor.setPower(power);
+            return;
+        }
+
+        // If dual servos are present, map positive power to "intake in" and negative to "out".
+        // We use 3 discrete states: in (1.0/0.0), stop (0.5/0.5), out (0.0/1.0). Adjust if your
+        // servos require different neutral or travel ranges.
+        if (intakeServoLeft != null && intakeServoRight != null) {
+            double leftPos = 0.5;
+            double rightPos = 0.5;
+            if (power > 0.05) { // intake in
+                leftPos = 1.0;
+                rightPos = 0.0;
+            } else if (power < -0.05) { // out
+                leftPos = 0.0;
+                rightPos = 1.0;
+            }
+            intakeServoLeft.setPosition(leftPos);
+            intakeServoRight.setPosition(rightPos);
+        }
     }
 
-    public void shoot() {
-        //Insert Shooting method here
-        shoot.shootToggle(shootPower);
+    // Stop intake.
+    public void stopIntake() {
+        if (intakeMotor != null) {
+            intakeMotor.setPower(0);
+            return;
+        }
+        if (intakeServoLeft != null && intakeServoRight != null) {
+            // set to neutral/stop positions
+            intakeServoLeft.setPosition(0.5);
+            intakeServoRight.setPosition(0.5);
+        }
+    }
+
+    // Set shooter motor power (-1.0 .. 1.0). Safe if shooterMotor is not configured.
+    public void setShooterPower(double power) {
+        if (shooterMotor != null) shooterMotor.setPower(power);
+    }
+
+    // Stop shooter.
+    public void stopShooter() {
+        if (shooterMotor != null) shooterMotor.setPower(0);
     }
 }
