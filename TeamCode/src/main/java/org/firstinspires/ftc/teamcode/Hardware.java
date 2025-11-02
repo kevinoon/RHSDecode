@@ -17,15 +17,19 @@ public class Hardware {
     private DcMotor testMotor;
     private Servo testServo;
     private Servo testServo1;
-    // If its a motor for intake
-    // public DcMotor intakeMotor;
+    // Intake options (choose one):
+    // 1) Single-servo intake named "intake" in the robot config (preferred here).
+    //    If you want a single servo intake, uncomment the init line below for it.
+    public Servo intakeMotor; // single-servo intake (optional)
 
-    // If its two servos
+    // 2) Dual-servo intake (left/right). Many teams use two servos instead of one motor.
     public Servo intakeServoLeft;
     public Servo intakeServoRight;
 
     // shooter motor
     public DcMotor shooterMotor;
+    // Servo to hold/release artifacts for shooting (ExampleTele called this "artifactstopper").
+    public Servo artifactStopper;
     
     // Powers can be adjusted here
     private double intakePower = 0.5;
@@ -65,20 +69,24 @@ public class Hardware {
         testServo = hardwareMap.get(Servo.class, "testServo");
         testServo1 = hardwareMap.get(Servo.class, "testServo1");
 
-        // If its a motor uncomment
-        
-        // intakeMotor = hardwareMap.get(DcMotor.class, "intake");
-        // intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        // intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    // If you used a single servo for intake, you can initialize it like this (currently commented):
+    // intakeMotor = hardwareMap.get(Servo.class, "intake");
 
-        // If its servos
-        intakeServoLeft = hardwareMap.get(Servo.class, "intakeServoLeft");
-        intakeServoRight = hardwareMap.get(Servo.class, "intakeServoRight");
+    // Intake servos (if present)
+    intakeServoLeft = hardwareMap.get(Servo.class, "intakeServoLeft");
+    intakeServoRight = hardwareMap.get(Servo.class, "intakeServoRight");
 
         // Shooter motor
         shooterMotor = hardwareMap.get(DcMotor.class, "shooter");
         shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        // Artifact stopper servo (optional)
+        try {
+            artifactStopper = hardwareMap.get(Servo.class, "artifactstopper");
+        } catch (Exception e) {
+            artifactStopper = null;
+        }
     }
 
     public void setToRunToPosition() {
@@ -132,11 +140,15 @@ public class Hardware {
         backRight.setPower(power);
     }
 
-    // Set intake motor power (-1.0 .. 1.0). Safe if intakeMotor is not configured.
+    // Set intake power. Supports either a single-servo (`intakeMotor`) or a dual-servo intake
+    // (`intakeServoLeft`/`intakeServoRight`). `power` is in [-1.0 .. 1.0].
     public void setIntakePower(double power) {
-        // If a motor exists, prefer using it.
+        // If a single servo named `intakeMotor` is configured, map power -> position.
         if (intakeMotor != null) {
-            intakeMotor.setPower(power);
+            double pos = 0.5; // neutral
+            if (power > 0.05) pos = 1.0;      // intake in
+            else if (power < -0.05) pos = 0.0; // out
+            intakeMotor.setPosition(pos);
             return;
         }
 
@@ -158,10 +170,10 @@ public class Hardware {
         }
     }
 
-    // Stop intake.
+    // Stop intake (set to neutral). Works for single-servo or dual-servo intake.
     public void stopIntake() {
         if (intakeMotor != null) {
-            intakeMotor.setPower(0);
+            intakeMotor.setPosition(0.5);
             return;
         }
         if (intakeServoLeft != null && intakeServoRight != null) {
