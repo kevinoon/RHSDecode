@@ -41,6 +41,8 @@ public class TestTele extends LinearOpMode {
             }
 
             // Intake: left trigger to intake in, left bumper to reverse/out
+
+            // Might need to fix for servos IDK
             if (gamepad2.left_trigger > 0.05) {
                 hw.setIntakePower(gamepad2.left_trigger);
             } else if (gamepad2.left_bumper) {
