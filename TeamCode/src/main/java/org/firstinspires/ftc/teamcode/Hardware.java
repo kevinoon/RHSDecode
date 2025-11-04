@@ -136,7 +136,7 @@ public class Hardware {
             double pos = 0.5; // neutral
             if (power > 0.05) pos = 1.0;      // intake in
             else if (power < -0.05) pos = 0.0; // out
-            intakeMotor.setPosition(pos);
+            intakeMotor.setPower(pos);
             return;
         }
 
@@ -145,7 +145,7 @@ public class Hardware {
     // Stop intake (set to neutral). Works for single-servo or dual-servo intake.
     public void stopIntake() {
         if (intakeMotor != null) {
-            intakeMotor.setPosition(0.5);
+            intakeMotor.setPower(0.5);
             return;
         }
     }

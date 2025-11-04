@@ -73,19 +73,9 @@ public class TestAuto extends LinearOpMode {
         if (isShooting) return;
         isShooting = true;
 
-        // If artifact stopper servo exists, open it to allow one artifact through
-        if (hw.artifactStopper != null) {
-            hw.artifactStopper.setPosition(0.0); // release
-        }
-
         if (hw.shooterMotor != null) hw.setShooterPower(shootPower);
         sleep(250);
-
-        if (hw.artifactStopper != null) {
-            hw.artifactStopper.setPosition(0.2); // stop next artifact
-        }
-        sleep(200);
-
+        
         if (hw.shooterMotor != null) hw.stopShooter();
         sleep(1500); // wait before allowing next shot
 
