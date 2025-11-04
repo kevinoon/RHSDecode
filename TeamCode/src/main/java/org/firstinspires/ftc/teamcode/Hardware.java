@@ -20,16 +20,21 @@ public class Hardware {
     // Intake options (choose one):
     // 1) Single-servo intake named "intake" in the robot config (preferred here).
     //    If you want a single servo intake, uncomment the init line below for it.
+    
+    // Use this one
     public Servo intakeMotor; // single-servo intake (optional)
 
     // 2) Dual-servo intake (left/right). Many teams use two servos instead of one motor.
-    public Servo intakeServoLeft;
-    public Servo intakeServoRight;
+    // public Servo intakeServoLeft;
+    // public Servo intakeServoRight;
 
     // shooter motor
     public DcMotor shooterMotor;
     // Servo to hold/release artifacts for shooting (ExampleTele called this "artifactstopper").
     public Servo artifactStopper;
+
+    public Servo transLeft;
+    public Servo transRight;
     
     // Powers can be adjusted here
     private double intakePower = 0.5;
@@ -86,6 +91,19 @@ public class Hardware {
             artifactStopper = hardwareMap.get(Servo.class, "artifactstopper");
         } catch (Exception e) {
             artifactStopper = null;
+        }
+
+        // Transport servos (optional). These move the game element into the shooter.
+        try {
+            transLeft = hardwareMap.get(Servo.class, "transLeft");
+        } catch (Exception e) {
+            transLeft = null;
+        }
+
+        try {
+            transRight = hardwareMap.get(Servo.class, "transRight");
+        } catch (Exception e) {
+            transRight = null;
         }
     }
 
@@ -155,19 +173,21 @@ public class Hardware {
         // If dual servos are present, map positive power to "intake in" and negative to "out".
         // We use 3 discrete states: in (1.0/0.0), stop (0.5/0.5), out (0.0/1.0). Adjust if your
         // servos require different neutral or travel ranges.
-        if (intakeServoLeft != null && intakeServoRight != null) {
-            double leftPos = 0.5;
-            double rightPos = 0.5;
-            if (power > 0.05) { // intake in
-                leftPos = 1.0;
-                rightPos = 0.0;
-            } else if (power < -0.05) { // out
-                leftPos = 0.0;
-                rightPos = 1.0;
-            }
-            intakeServoLeft.setPosition(leftPos);
-            intakeServoRight.setPosition(rightPos);
-        }
+
+        // Commented Out because they changed it
+    //     if (intakeServoLeft != null && intakeServoRight != null) {
+    //         double leftPos = 0.5;
+    //         double rightPos = 0.5;
+    //         if (power > 0.05) { // intake in
+    //             leftPos = 1.0;
+    //             rightPos = 0.0;
+    //         } else if (power < -0.05) { // out
+    //             leftPos = 0.0;
+    //             rightPos = 1.0;
+    //         }
+    //         intakeServoLeft.setPosition(leftPos);
+    //         intakeServoRight.setPosition(rightPos);
+    //     }
     }
 
     // Stop intake (set to neutral). Works for single-servo or dual-servo intake.
@@ -176,20 +196,42 @@ public class Hardware {
             intakeMotor.setPosition(0.5);
             return;
         }
-        if (intakeServoLeft != null && intakeServoRight != null) {
-            // set to neutral/stop positions
-            intakeServoLeft.setPosition(0.5);
-            intakeServoRight.setPosition(0.5);
-        }
+        // if (intakeServoLeft != null && intakeServoRight != null) {
+        //     // set to neutral/stop positions
+        //     intakeServoLeft.setPosition(0.5);
+        //     intakeServoRight.setPosition(0.5);
+        // }
     }
 
     // Set shooter motor power (-1.0 .. 1.0). Safe if shooterMotor is not configured.
     public void setShooterPower(double power) {
         if (shooterMotor != null) shooterMotor.setPower(power);
+
+        // When shooter is active (beyond a small deadband), run transport servos.
+        // If your transport servos are continuous-rotation servos, consider using
+        // CRServo rather than Servo and call setPower instead of setPosition.
+        double threshold = 0.05;
+        if (transLeft != null && transRight != null) {
+            if (Math.abs(power) > threshold) {
+                // Set positions for "feeding". These values are conventional: adjust
+                // to match your hardware orientation. Left goes forward -> 1.0,
+                // right is mirrored -> 0.0. If your servos need reversed values,
+                // swap them or change to appropriate values.
+                transLeft.setPosition(1.0);
+                transRight.setPosition(0.0);
+            } else {
+                // Neutral / stopped positions
+                transLeft.setPosition(0.5);
+                transRight.setPosition(0.5);
+            }
+        }
     }
 
     // Stop shooter.
     public void stopShooter() {
         if (shooterMotor != null) shooterMotor.setPower(0);
+        // also neutralize transports
+        if (transLeft != null) transLeft.setPosition(0.5);
+        if (transRight != null) transRight.setPosition(0.5);
     }
 }
