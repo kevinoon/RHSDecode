@@ -52,7 +52,7 @@ public class TestTele extends LinearOpMode {
             }
 
             /*
-             * Or if your name starts with a K and you want to test with only one controller
+             * Fallback controller
              */
 
              if(gamepad1.right_trigger > 0.05){
