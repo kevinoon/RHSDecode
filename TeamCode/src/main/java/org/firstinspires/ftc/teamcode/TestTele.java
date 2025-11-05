@@ -33,7 +33,7 @@ public class TestTele extends LinearOpMode {
             // --- Intake and Shooter (gamepad2) ---
             // Shooter: use right trigger or right bumper to run shooter
             if (gamepad2.right_trigger > 0.05) {
-                hw.setShooterPower(gamepad2.right_trigger);
+                hw.setShooterPower(gamepad2.right_trigger); // Might need to change this to one
             } else if (gamepad2.right_bumper) {
                 hw.setShooterPower(1.0);
             } else {
@@ -42,14 +42,34 @@ public class TestTele extends LinearOpMode {
 
             // Intake: left trigger to intake in, left bumper to reverse/out
 
-            // Might need to fix for servos IDK
+            // Left trigger intake in, left bumper spit it out
             if (gamepad2.left_trigger > 0.05) {
-                hw.setIntakePower(gamepad2.left_trigger);
+                hw.setIntakePower(gamepad2.left_trigger); // Might need to change this to one
             } else if (gamepad2.left_bumper) {
                 hw.setIntakePower(-1.0);
             } else {
                 hw.stopIntake();
             }
+
+            /*
+             * Or if your name starts with a K and you want to test with only one controller
+             */
+
+             if(gamepad1.right_trigger > 0.05){
+                 hw.setShooterPower(gamepad1.right_trigger);
+             } else if (gamepad1.right_bumper){
+                 hw.setShooterPower(1.0);
+             } else {
+                 hw.stopShooter();
+             }
+
+                if(gamepad1.left_trigger > 0.05){
+                    hw.setIntakePower(gamepad1.left_trigger);
+                } else if (gamepad1.left_bumper){
+                    hw.setIntakePower(-1.0);
+                } else {
+                    hw.stopIntake();
+                }
 
             telemetry.addData("Front Left Power", hw.frontLeft.getPower());
             telemetry.addData("Front Right Power", hw.frontRight.getPower());
@@ -57,7 +77,7 @@ public class TestTele extends LinearOpMode {
             telemetry.addData("Back Right Power", hw.backRight.getPower());
             telemetry.addData("Shooter Power", hw.shooterMotor == null ? "(not configured)" : hw.shooterMotor.getPower());
             if (hw.intakeMotor != null) {
-                // intakeMotor is a servo in this codebase; show its position
+                // intakeMotor is a DcMotor so if it is not there it is not there
                 telemetry.addData("Intake Servo", hw.intakeMotor.getPower());
             }
             telemetry.update();

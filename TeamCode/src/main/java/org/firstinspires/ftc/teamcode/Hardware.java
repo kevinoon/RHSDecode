@@ -58,7 +58,7 @@ public class Hardware {
         backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        // If you used a single servo for intake, you can initialize it like this (currently commented):
+        // Intake motor
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
 
         // Shooter motor
@@ -133,9 +133,9 @@ public class Hardware {
 
     public void setIntakePower(double power) {
         if (intakeMotor != null) {
-            double pos = 0.5; // neutral
+            double pos = 0.0; // neutral
             if (power > 0.05) pos = 1.0;      // intake in
-            else if (power < -0.05) pos = 0.0; // out
+            else if (power < -0.05) pos = -1.0; // out
             intakeMotor.setPower(pos);
             return;
         }
@@ -145,7 +145,7 @@ public class Hardware {
     // Stop intake (set to neutral). Works for single-servo or dual-servo intake.
     public void stopIntake() {
         if (intakeMotor != null) {
-            intakeMotor.setPower(0.5);
+            intakeMotor.setPower(0.0);
             return;
         }
     }
@@ -168,8 +168,8 @@ public class Hardware {
                 transRight.setPosition(0.0);
             } else {
                 // Neutral / stopped positions
-                transLeft.setPosition(0.5);
-                transRight.setPosition(0.5);
+                transLeft.setPosition(0.0);
+                transRight.setPosition(0.0);
             }
         }
     }
