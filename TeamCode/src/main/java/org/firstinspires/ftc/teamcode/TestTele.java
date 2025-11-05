@@ -52,7 +52,7 @@ public class TestTele extends LinearOpMode {
             }
 
             /*
-             * Fallback controller
+             * Fallback controller: use gamepad1 if gamepad2 is not available
              */
 
              if(gamepad1.right_trigger > 0.05){
