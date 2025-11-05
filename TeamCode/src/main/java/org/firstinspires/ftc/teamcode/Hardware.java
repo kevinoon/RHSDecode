@@ -178,7 +178,7 @@ public class Hardware {
     public void stopShooter() {
         if (shooterMotor != null) shooterMotor.setPower(0);
         // also neutralize transports
-        if (transLeft != null) transLeft.setPosition(0.5);
-        if (transRight != null) transRight.setPosition(0.5);
+        if (transLeft != null) transLeft.setPosition(0.0);
+        if (transRight != null) transRight.setPosition(0.0);
     }
 }
