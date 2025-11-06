@@ -52,11 +52,11 @@ public class TestTele extends LinearOpMode {
             }
 
             // --- transLeft and TransRight Servos (gamepad2) ---
-            if (gamepad2.b) {
+            if (gamepad2.dpad_up > 0.05) {
                 hw.transLeft.setPosition(1.0);  // Adjust positions as needed
                 hw.transRight.setPosition(1.0);
             }
-            
+
 
             /*
              * Fallback controller: use gamepad1 if gamepad2 is not available
