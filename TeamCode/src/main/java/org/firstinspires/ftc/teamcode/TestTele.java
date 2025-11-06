@@ -83,10 +83,7 @@ public class TestTele extends LinearOpMode {
             telemetry.addData("Back Left Power", hw.backLeft.getPower());
             telemetry.addData("Back Right Power", hw.backRight.getPower());
             telemetry.addData("Shooter Power", hw.shooterMotor == null ? "(not configured)" : hw.shooterMotor.getPower());
-            if (hw.intakeMotor != null) {
-                // intakeMotor is a DcMotor so if it is not there it is not there
-                telemetry.addData("Intake Servo", hw.intakeMotor.getPower());
-            }
+            telemetry.addData("Intake Motor", hw.intakeMotor.getPower());
             telemetry.update();
         }
     }
