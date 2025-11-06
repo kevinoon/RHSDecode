@@ -75,7 +75,7 @@ public class Hardware {
 
         try {
             transRight = hardwareMap.get(CRServo.class, "transRight");
-            transRight.setDirection(CRServo.setDirection.REVERSE); // transRight is reversed because builder wiring problems
+            transRight.setDirection(CRServo.Direction.REVERSE); // transRight is reversed because builder wiring problems
         } catch (Exception e) {
             transRight = null;
         }
