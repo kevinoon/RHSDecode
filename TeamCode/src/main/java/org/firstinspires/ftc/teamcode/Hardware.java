@@ -164,12 +164,12 @@ public class Hardware {
                 // to match your hardware orientation. Left goes forward -> 1.0,
                 // right is mirrored -> 0.0. If your servos need reversed values,
                 // swap them or change to appropriate values.
-                transLeft.setPosition(1.0);
-                transRight.setPosition(0.0);
+                transLeft.setPower(1.0);
+                transRight.setPower(0.0);
             } else {
                 // Neutral / stopped positions
-                transLeft.setPosition(0.0);
-                transRight.setPosition(0.0);
+                transLeft.setPower(0.0);
+                transRight.setPower(0.0);
             }
         }
     }
@@ -178,7 +178,7 @@ public class Hardware {
     public void stopShooter() {
         if (shooterMotor != null) shooterMotor.setPower(0);
         // also neutralize transports
-        if (transLeft != null) transLeft.setPosition(0.0);
-        if (transRight != null) transRight.setPosition(0.0);
+        if (transLeft != null) transLeft.setPower(0.0);
+        if (transRight != null) transRight.setPower(0.0);
     }
 }
