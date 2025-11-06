@@ -21,8 +21,8 @@ public class Hardware {
     public DcMotor shooterMotor;
 
     // Transition Motor Names
-    public Servo transLeft;
-    public Servo transRight;
+    public CRServo transLeft;
+    public CRServo transRight;
     
     // Powers can be adjusted here
     private double intakePower = 0.5;
@@ -68,13 +68,13 @@ public class Hardware {
 
         // Transport servos (optional). These move the game element into the shooter.
         try {
-            transLeft = hardwareMap.get(Servo.class, "transLeft");
+            transLeft = hardwareMap.get(CRServo.class, "transLeft");
         } catch (Exception e) {
             transLeft = null;
         }
 
         try {
-            transRight = hardwareMap.get(Servo.class, "transRight");
+            transRight = hardwareMap.get(CRServo.class, "transRight");
         } catch (Exception e) {
             transRight = null;
         }
