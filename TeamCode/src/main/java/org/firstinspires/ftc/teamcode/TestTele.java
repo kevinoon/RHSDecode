@@ -54,7 +54,7 @@ public class TestTele extends LinearOpMode {
             // --- transLeft and TransRight Servos (gamepad2) ---
             if (gamepad2.dpad_up == true) {
                 hw.transLeft.setPower(1.0); 
-                hw.transRight.setPower(1.0);
+                hw.transRight.setPower(-1.0); // transRight is reversed because builder wiring problems
             }
 
 
