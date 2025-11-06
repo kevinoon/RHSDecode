@@ -75,6 +75,7 @@ public class Hardware {
 
         try {
             transRight = hardwareMap.get(CRServo.class, "transRight");
+            transRight.setDirection(CRServo.setDirection.REVERSE);
         } catch (Exception e) {
             transRight = null;
         }
