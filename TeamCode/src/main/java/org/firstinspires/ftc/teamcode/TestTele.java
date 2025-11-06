@@ -45,13 +45,18 @@ public class TestTele extends LinearOpMode {
             // Left trigger intake in, left bumper spit it out
             if (gamepad2.left_trigger > 0.05) {
                 hw.setIntakePower(gamepad2.left_trigger); // Might need to change this to one
-                hw.transLeft.setPower(1.0); 
             } else if (gamepad2.left_bumper) {
                 hw.setIntakePower(-1.0);
-                hw.transLeft.setPower(-1.0); 
             } else {
                 hw.stopIntake();
             }
+
+            // --- transLeft and TransRight Servos (gamepad2) ---
+            if (gamepad2.dpad_up == true) {
+                hw.transLeft.setPower(1.0); 
+                hw.transRight.setPower(1.0);
+            }
+
 
             /*
              * Fallback controller: use gamepad1 if gamepad2 is not available
@@ -59,10 +64,8 @@ public class TestTele extends LinearOpMode {
 
              if(gamepad1.right_trigger > 0.05){
                  hw.setShooterPower(gamepad1.right_trigger);
-                 hw.transRight.setPower(1.0);
              } else if (gamepad1.right_bumper){
                  hw.setShooterPower(1.0);
-                 hw.transRight.setPower(1.0);
              } else {
                  hw.stopShooter();
              }
@@ -73,16 +76,6 @@ public class TestTele extends LinearOpMode {
                     hw.setIntakePower(-1.0);
                 } else {
                     hw.stopIntake();
-                }
-
-
-                // For testing purposes
-                if(gamepad2.dpad_up == true) {
-                    transLeft.setPower(1.0);
-                }
-
-                if(gamepad2.dpad_down == true) {
-                    transRight.setPower(1.0);
                 }
 
             telemetry.addData("Front Left Power", hw.frontLeft.getPower());
