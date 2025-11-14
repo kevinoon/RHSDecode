@@ -92,8 +92,8 @@ public class TestAuto extends LinearOpMode {
     }
 
 
-    // you guys can do these I do not want to do these
 
+    // Fix these for the robot
     private void redFarShoot() {
         hw.setPower(1);
         sleep(500);
