@@ -34,6 +34,8 @@ public class TestAuto extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
 
+        mode = 1;
+
         switch(modes) {
             case 1 -> redBlueShoot();
             case 2 -> blueFarShoot();
