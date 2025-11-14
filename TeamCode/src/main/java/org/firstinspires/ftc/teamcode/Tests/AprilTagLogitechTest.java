@@ -8,6 +8,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 
+// Please put this in the right spot next time please
 @Autonomous(name = "AprilTag Logitech Test")
 public class AprilTagLogitechTest extends OpMode {
     private AprilTagProcessor aprilTag;
