@@ -6,6 +6,7 @@
 - [x] Add correct variables to Hardware.java
 - [x] Implement transLeft and transRight servo controls into Hardware.java and then into various things
 - [ ] Fix implementation in TestAuto.java for VisionPortal and AprilTag
+- [ ] Remove Blocks Because blocks are bad 
 
 - [ ] Create the ultimate robot by 3/25/26
 
