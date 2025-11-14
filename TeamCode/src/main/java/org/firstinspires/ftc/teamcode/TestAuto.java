@@ -18,6 +18,7 @@ public class TestAuto extends LinearOpMode {
     private VisionPortal visionPortal;
     private double shootPower = 0.8;
     private boolean isShooting = false;
+    private int modes;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -33,11 +34,11 @@ public class TestAuto extends LinearOpMode {
         waitForStart();
         if (isStopRequested()) return;
 
-        // Autonomous routine inspired by ExampleTele: drive to goal, shoot, move to player station, shoot
-        driveToGoal(hw);
-        shootThreeArtifacts(hw, 3);
-        driveToPlayerStationAndBack(hw);
-        shootThreeArtifacts(hw, 3);
+        switch(modes) {
+            case 1 -> redBlueShoot();
+            case 2 -> blueFarShoot();
+            case 3 -> redFarShoot();
+        }
 
         // Close camera stream to save CPU
         if (visionPortal != null) visionPortal.close();
@@ -75,50 +76,29 @@ public class TestAuto extends LinearOpMode {
 
         if (hw.shooterMotor != null) hw.setShooterPower(shootPower);
         sleep(250);
-        
+
         if (hw.shooterMotor != null) hw.stopShooter();
         sleep(1500); // wait before allowing next shot
 
         isShooting = false;
     }
 
-    private void shootThreeArtifacts(Hardware hw, int n) throws InterruptedException {
-        int remaining = n;
-        while (opModeIsActive() && remaining > 0) {
-            if (!isShooting) {
-                shoot(hw);
-                remaining--;
-            }
-            displayVisionPortalData();
-        }
-    }
-
-    private void driveToGoal(Hardware hw) throws InterruptedException {
-        // Drive forward for a fixed time (tweak timings for your robot)
-        hw.setPower(1.0);
-        sleep(2300);
-        hw.setPower(0);
-        // small turn
-        hw.frontLeft.setPower(0.5);
-        hw.frontRight.setPower(-0.5);
-        hw.backLeft.setPower(0.5);
-        hw.backRight.setPower(-0.5);
-        sleep(220);
-        hw.setPower(0);
+    private void redBlueShoot() {
+        // Test with robot to see how far it needs to go
+        hw.setPower(-1);
         sleep(500);
+        hw.stopMotor();
+        hw.shoot(shootPower);
     }
 
-    private void driveToPlayerStationAndBack(Hardware hw) throws InterruptedException {
-        hw.setPower(-1.0);
-        sleep(2800);
-        hw.setPower(0);
-        sleep(10000);
-        hw.setPower(1.0);
-        sleep(2800);
-        hw.setPower(0);
-        sleep(500);
+
+    // you guys can do these I do not want to do these
+
+    private void redFarShoot() {
+
     }
 
-    
+    private void blueFarShoot() {
 
+    }
 }

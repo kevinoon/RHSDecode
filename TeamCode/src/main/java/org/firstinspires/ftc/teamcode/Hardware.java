@@ -152,6 +152,13 @@ public class Hardware {
         }
     }
 
+    public void stopMotor() {
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
+    }
+
     // Set shooter motor power (-1.0 .. 1.0). Safe if shooterMotor is not configured.
     public void setShooterPower(double power) {
         if (shooterMotor != null) shooterMotor.setPower(power);
