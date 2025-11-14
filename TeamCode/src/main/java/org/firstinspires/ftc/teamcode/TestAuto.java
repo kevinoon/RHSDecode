@@ -95,10 +95,18 @@ public class TestAuto extends LinearOpMode {
     // you guys can do these I do not want to do these
 
     private void redFarShoot() {
-
+        hw.setPower(1);
+        sleep(500);
+        hw.stopMotor();
+        // hw turn 45 degrees right
+        hw.shoot(shootPower);
     }
 
     private void blueFarShoot() {
-
+        hw.setPower(1);
+        sleep(500);
+        hw.stopMotor();
+        // hw turn 45 degrees left
+        hw.shoot(shootPower);
     }
 }
