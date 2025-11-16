@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import main.java.org.firstinspires.ftc.teamcode.Mechanics.AprilTagWebcam;
 
 public class Hardware {
     private static Hardware self;
@@ -21,8 +20,6 @@ public class Hardware {
 
     // shooter motor
     public DcMotor shooterMotor;
-
-    AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
 
     // Transition Motor Names
     public CRServo transLeft;
@@ -83,8 +80,6 @@ public class Hardware {
         } catch (Exception e) {
             transRight = null;
         }
-
-        aprilTagWebcam.init(hardwareMap, telemetry);
     }
 
     public void setToRunToPosition() {
