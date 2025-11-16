@@ -1,14 +1,15 @@
 package main.java.org.firstinspires.ftc.teamcode;
 
-import main.java.org.firstinspires.ftc.teamcode.Mechanics.AprilTagWebcam;
 import org.firstinspires.ftc.teamcode.Hardware;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name= "Auto Test")
-public class TestAuto extends LinearOpMode {
+@Autonomous(name= "Auto")
+public class Auto extends LinearOpMode {
     @Config // Change mode in config files before each match
     public int mode = defaultMode(); // 1 is default
+
+
 
     @Override
     public void runOpMode() {
@@ -29,9 +30,8 @@ public class TestAuto extends LinearOpMode {
                 case 3 -> blueFarShoot();
             }
 
-            aprilTagWebcam.update();
-            AprilTagDetection id20 = aprilTagWebcam.getTagBySpecificId(20);
-            aprilTagWebcam.displayDetectionTelemetry(id20);
+            telemetry.addData("All Roads lead to Rome");
+            telemetry.update();
         }
     }
 

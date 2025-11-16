@@ -1,10 +1,12 @@
-package main.java.org.firstinspires.ftc.teamcode.Tests;
+package main.java.org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@TeleOp(name = "Test Tele", group = "Linear Opmode")
-public class TestTele extends LinearOpMode {
+import org.firstinspres.ftc.teamcode.Hardware;
+
+@TeleOp(name = "Tele")
+public class Tele extends LinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -20,9 +22,9 @@ public class TestTele extends LinearOpMode {
             double rx = gamepad1.right_stick_x;   // rotate
 
             // Optional debug printout
-            System.out.println("Left Stick Y: " + y + 
-                               " | Left Stick X: " + x + 
-                               " | Right Stick X: " + rx);
+            System.out.println("Left Stick Y: " + y +
+                    " | Left Stick X: " + x +
+                    " | Right Stick X: " + rx);
 
             // Apply power directly (no normalization)
             hw.frontLeft.setPower(y + x + rx);
@@ -51,41 +53,12 @@ public class TestTele extends LinearOpMode {
                 hw.stopIntake();
             }
 
-            // --- transLeft and TransRight Servos (gamepad2) ---
+            // --- transLeft and transRight Servos (gamepad2) ---
             if (gamepad2.dpad_up == true) {
-                hw.transLeft.setPower(1.0); 
+                hw.transLeft.setPower(1.0);
                 hw.transRight.setPower(1.0);
             }
 
-
-            /*
-             * Fallback controller: use gamepad1 if gamepad2 is not available
-             */
-
-
-            // Commented out for now unless we really need it
-
-
-//             if(gamepad1.right_trigger > 0.05){
-//                 hw.shooterMotor.setShooterPower(gamepad1.right_trigger);
-//             } else if (gamepad1.right_bumper){
-//                 hw.shooterMotor.setShooterPower(1.0);
-//             } else {
-//                 hw.stopShooter();
-//             }
-//
-//                if(gamepad1.left_trigger > 0.05){
-//                    hw.setIntakePower(intakePower);
-//                } else if (gamepad1.left_bumper){
-//                    hw.setIntakePower(-1.0);
-//                } else {
-//                    hw.stopIntake();
-//                }
-//
-//            if(gamepad1.dpad_up == true) {
-//                hw.transLeft.setPower(1);
-//                hw.transRight.setPower(1);
-//            }
 
             telemetry.addData("Front Left Power", hw.frontLeft.getPower());
             telemetry.addData("Front Right Power", hw.frontRight.getPower());

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import main.java.org.firstinspires.ftc.teamcode.Mechanics.AprilTagWebcam;
 
 public class Hardware {
     private static Hardware self;
@@ -21,13 +22,15 @@ public class Hardware {
     // shooter motor
     public DcMotor shooterMotor;
 
+    AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
+
     // Transition Motor Names
     public CRServo transLeft;
     public CRServo transRight;
     
     // Powers can be adjusted here
-    private double intakePower = 0.5;
-    private double shootPower = 0.5;
+    private double intakePower = 1.0;
+    private double shootPower = 0.8;
 
     private Hardware(OpMode opMode) {
         self = this;
@@ -80,6 +83,8 @@ public class Hardware {
         } catch (Exception e) {
             transRight = null;
         }
+
+        aprilTagWebcam.init(hardwareMap, telemetry);
     }
 
     public void setToRunToPosition() {
@@ -157,6 +162,10 @@ public class Hardware {
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(0);
+        shooterMotor.setPower(0);
+        intakeMotor.setPower(0);
+        transLeft.setPower(0);
+        transRight.setPower(0);
     }
 
     // Set shooter motor power (-1.0 .. 1.0). Safe if shooterMotor is not configured.
