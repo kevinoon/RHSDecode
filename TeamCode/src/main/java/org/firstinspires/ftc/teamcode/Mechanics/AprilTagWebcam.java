@@ -1,6 +1,11 @@
-package main.java.org.firstinspires.ftc.teamcode.Mechanics;
+package org.firstinspires.ftc.teamcode.Mechanics;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import java.util.ArrayList;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -10,7 +15,7 @@ public class AprilTagWebcam {
     private AprilTagProcessor aprilTagProccessor;
     private VisionPortal visionPortal;
 
-    private List<AprilTagDetection> detectedTags = new ArayList<>();
+    private List<AprilTagDetection> detectedTags = new ArrayList<>();
 
     private Telemetry telemetry;
 

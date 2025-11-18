@@ -8,7 +8,6 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 
-// Please put this in the right spot next time please
 @Autonomous(name = "AprilTag Logitech Test")
 public class AprilTagLogitechTest extends OpMode {
     private AprilTagProcessor aprilTag;
@@ -19,11 +18,15 @@ public class AprilTagLogitechTest extends OpMode {
         // Initialize the AprilTag processor
         aprilTag = AprilTagProcessor.easyCreateWithDefaults();
 
-        // Initialize the VisionPortal with the Logitech webcam named "webcam"
-        visionPortal = VisionPortal.easyCreateWithDefaults(
-            hardwareMap.get(WebcamName.class, "webcam"), aprilTag);
+        // Initialize the VisionPortal with the Logitech webcam named "webcam" and enable live view
+        visionPortal = new VisionPortal.Builder()
+            .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
+            .addProcessor(aprilTag)
+            .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
+            .enableLiveView(true)
+            .build();
 
-        telemetry.addData("Status", "AprilTag initialized with Logitech webcam");
+        telemetry.addData("Status", "AprilTag initialized with Logitech webcam and live view enabled");
         telemetry.update();
     }
 
