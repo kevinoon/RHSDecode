@@ -25,9 +25,15 @@ public class Auto extends LinearOpMode {
         while(opModeIsActive) {
 
             switch(mode) {
-                case 1 -> redBlueShoot();
-                case 2 -> redFarShoot();
-                case 3 -> blueFarShoot();
+                case 1:
+                    redBlueShoot();
+                    break;
+                case 2:
+                    redFarShoot();
+                    break;
+                case 3:
+                    blueFarShoot();
+                    break;
             }
 
             telemetry.addData("All Roads lead to Rome");
