@@ -10,6 +10,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
+import android.util.Size;
 
 public class AprilTagWebcam {
     private AprilTagProcessor aprilTagProccessor;
@@ -24,7 +25,7 @@ public class AprilTagWebcam {
 
         aprilTagProccessor = new AprilTagProcessor.Builder()
                 .setDrawTagID(true)
-                .setDrawTagOutLine(true)
+                .setDrawTagOutline(true)
                 .setDrawAxes(true)
                 .setDrawCubeProjection(true)
                 .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
@@ -32,7 +33,8 @@ public class AprilTagWebcam {
 
         VisionPortal.Builder builder = new VisionPortal.Builder();
         builder.setCamera(hw.get(WebcamName.class, "Webcam"));
-        builder.setCameraResolution(640,480);
+        // Corrected line using the Size object
+        builder.setCameraResolution(new Size(640,480));
         builder.addProcessor(aprilTagProccessor);
         visionPortal = builder.build();
     }
@@ -46,7 +48,7 @@ public class AprilTagWebcam {
     }
 
     public void displayDetectionTelemetry(AprilTagDetection detectionId) {
-        if(detectedId == null) return;
+        if(detectionId == null) return;
 
         if (detectionId.metadata != null) {
             telemetry.addLine(String.format("\n==== (ID %d) %s", detectionId.id, detectionId.metadata.name));
