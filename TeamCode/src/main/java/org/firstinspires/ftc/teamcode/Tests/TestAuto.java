@@ -9,23 +9,34 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name= "Auto Test")
 public class TestAuto extends LinearOpMode {
     public int mode = defaultMode(); // 1 is default
+    
+    private Hardware hw;
+    
+    private AprilTagWebcam aprilTagWebcam;
 
     @Override
     public void runOpMode() {
-        Hardware hw = Hardware.getInstance(this);
+        hw = Hardware.getInstance(this);
         hw.init(hardwareMap);
         hw.setToNoEncoder();
+        
+        
+        // Initialize webcam here (inside a method)
+        aprilTagWebcam = new AprilTagWebcam(); // or new AprilTagWebcam(this) depending on API
+        aprilTagWebcam.init(hardwareMap, telemetry); // if needed by that class
 
         telemetry.addData("Mode", mode);
         telemetry.update();
 
         waitForStart();
 
-        while(opModeIsActive) {
+        while(opModeIsActive()) {
             
-            aprilTagWebcam.update();
-            AprilTagDetection id20 = aprilTagWebcam.getTagBySpecificId(20);
-            aprilTagWebcam.displayDetectionTelemetry(id20);
+        aprilTagWebcam.update();
+        AprilTagDetection id20 = aprilTagWebcam.getTagBySpecificId(20);
+        aprilTagWebcam.displayDetectionTelemetry(id20);
+        sleep(20);
+        
         }
     }
 
