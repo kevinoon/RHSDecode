@@ -16,7 +16,7 @@ public class TestAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        hw = Hardware.getInstance(this);
+        Hardware hw = Hardware.getInstance(this);
         hw.init(hardwareMap);
         hw.setToNoEncoder();
         
@@ -35,7 +35,6 @@ public class TestAuto extends LinearOpMode {
         aprilTagWebcam.update();
         AprilTagDetection id20 = aprilTagWebcam.getTagBySpecificId(20);
         aprilTagWebcam.displayDetectionTelemetry(id20);
-        sleep(20);
         
         }
     }
@@ -59,7 +58,7 @@ public class TestAuto extends LinearOpMode {
 //        hw.setPower(1);
         sleep(750);
         hw.stopMotor();
-        hw.strafeLeft();
+        hw.strafeLeft(1.0);
 //        hw.strafeRight();
         hw.stopMotor();
         hw.setPower(-1);
@@ -83,7 +82,7 @@ public class TestAuto extends LinearOpMode {
 //        hw.setPower(1);
         sleep(750);
         hw.stopMotor();
-        hw.strafeRight();
+        hw.strafeRight(1.0);
 //        hw.strafeLeft();
         hw.stopMotor();
         hw.setPower(-1);

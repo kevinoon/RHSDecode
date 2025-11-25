@@ -7,12 +7,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 @Autonomous(name= "Auto")
 public class Auto extends LinearOpMode {
     public int mode = defaultMode(); // 1 is default
+    Hardware hw = Hardware.getInstance(this);
 
 
 
     @Override
     public void runOpMode() {
-        Hardware hw = Hardware.getInstance(this);
+        hw = Hardware.getInstance(this);
         hw.init(hardwareMap);
         hw.setToNoEncoder();
 
@@ -21,7 +22,7 @@ public class Auto extends LinearOpMode {
 
         waitForStart();
 
-        while(opModeIsActive) {
+        while(opModeIsActive()) {
 
             switch(mode) {
                 case 1:
@@ -34,8 +35,7 @@ public class Auto extends LinearOpMode {
                     blueFarShoot();
                     break;
             }
-
-            telemetry.addData("All Roads lead to Rome");
+            
             telemetry.update();
         }
     }
@@ -59,7 +59,7 @@ public class Auto extends LinearOpMode {
 //        hw.setPower(1);
         sleep(750);
         hw.stopMotor();
-        hw.strafeLeft();
+        hw.strafeLeft(1.0);
 //        hw.strafeRight();
         hw.stopMotor();
         hw.setPower(-1);
@@ -83,7 +83,7 @@ public class Auto extends LinearOpMode {
 //        hw.setPower(1);
         sleep(750);
         hw.stopMotor();
-        hw.strafeRight();
+        hw.strafeRight(1.0);
 //        hw.strafeLeft();
         hw.stopMotor();
         hw.setPower(-1);
